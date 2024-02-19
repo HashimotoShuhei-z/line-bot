@@ -9,6 +9,9 @@ use App\Services\ReplyMessageGenerator;
 use App\Services\RequestParser;
 use App\Services\WeatherForecaster;
 use Illuminate\Http\Request;
+use LINE\LINEBot;
+use LINE\LINEBot\HTTPClient\CurlHTTPClient;
+use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 
 class LineController extends Controller
 {
@@ -16,8 +19,10 @@ class LineController extends Controller
     public function delivery()
     {
         // 1. 登録されている友だちにメッセージを送信
-        $deliver = new Deliver(env('LINE_CHANNEL_ACCESS_TOKEN'), env('LINE_CHANNEL_SECRET'));
-        $deliver->deliveryAll('Hello LINE!');
+        $httpClient = new CurlHTTPClient(env('LINE_CHANNEL_ACCESS_TOKEN'));
+        $bot = new LINEBot($httpClient, ['channelSecret' => env('CHANNEL_SECRET')]);
+        $textBuilder = new TextMessageBuilder('test');
+        $bot->broadcast($textBuilder);
 
         return response()->json(['message' => 'sent']);
     }
