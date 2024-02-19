@@ -21,7 +21,7 @@ class LineController extends Controller
         // 1. 登録されている友だちにメッセージを送信
         $httpClient = new CurlHTTPClient(env('LINE_CHANNEL_ACCESS_TOKEN'));
         $bot = new LINEBot($httpClient, ['channelSecret' => env('CHANNEL_SECRET')]);
-        $textBuilder = new TextMessageBuilder('test2');
+        $textBuilder = new TextMessageBuilder('test3');
         $bot->broadcast($textBuilder);
 
         return response()->json(['message' => 'sent']);
